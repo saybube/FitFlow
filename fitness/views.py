@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from .serializers import ActivitySerializer, FoodLogSerializer, WeightLogSerializer
 from .models import Activity, FoodLog, WeightLog
+from django.db.models import Sum
 from rest_framework import generics, permissions
+from rest_framework.views import APIView
+from rest_framework.response import Response
 # Create your views here.
 
 class ActivityListCreateView(generics.ListCreateAPIView):
@@ -38,3 +41,16 @@ class WeightLogListCreateView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+class ActivitySummaryView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        user_activities = Activity.objects.filter(user=request.user)
+        summary = user_activities.aggregate(
+            total_duration=Sum('duration_minutes'),
+            total_distance=Sum('distance_km'),
+            total_calories=Sum('calories_burned')
+        )
+        
+        return Response(summary)
