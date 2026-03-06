@@ -14,7 +14,10 @@ class ActivityListCreateView(generics.ListCreateAPIView):
     serializer_class = ActivitySerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['activity_type', 'date']
+    filterset_fields = {
+    'activity_type': ['exact'],
+    'date': ['exact', 'gte', 'lte'], # gte = greater than or equal, lte = less than or equal
+    }
 
     def get_queryset(self):
         return Activity.objects.filter(user=self.request.user)
