@@ -9,7 +9,7 @@ class ActivitySerializer(serializers.ModelSerializer):
 class FoodLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = FoodLog
-        fields = ['id', 'meal_type', 'food_item', 'calories_ingested', 'date']
+        fields = ['id', 'meal_type', 'food_item', 'calories_ingested', 'protein', 'carbs', 'fats','date']
 
 class WeightLogSerializer(serializers.ModelSerializer):
     class Meta:

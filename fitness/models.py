@@ -27,10 +27,13 @@ class FoodLog(models.Model):
     meal_type = models.CharField(max_length=20, choices=MEAL_CHOICES)
     food_item = models.CharField(max_length=100)
     calories_ingested = models.FloatField()
+    protein = models.FloatField(default=0.0)
+    carbs = models.FloatField(default=0.0)
+    fats = models.FloatField(default=0.0)
     date = models.DateField()
 
     def __str__(self):
-        return f"{self.meal_type} - {self.food_item}"
+        return f"{self.food_item} - {self.user.username}"
     
 # 3. Weight Measurement Model
 class WeightLog(models.Model):
