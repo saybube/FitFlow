@@ -18,10 +18,10 @@ class Activity(models.Model):
 # 2. Food Log Model
 class FoodLog(models.Model):
     MEAL_CHOICES = [
-        ('breakfast', 'Breakfast'),
-        ('lunch', 'Lunch'),
-        ('dinner', 'Dinner'),
-        ('snack', 'Snack'),
+        ('Breakfast', 'Breakfast'),
+        ('Lunch', 'Lunch'),
+        ('Dinner', 'Dinner'),
+        ('Snack', 'Snack'),
     ]
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='foods')
     meal_type = models.CharField(max_length=20, choices=MEAL_CHOICES)
