@@ -62,7 +62,7 @@ class ActivitySummaryView(APIView):
 
     def get(self, request):
         user_activities = Activity.objects.filter(user=request.user)
-        user_food = FoodLog.objects.filter(user=request.user) # Add this
+        user_food = FoodLog.objects.filter(user=request.user)
         
         activity_summary = user_activities.aggregate(
             total_duration=Sum('duration_minutes'),
