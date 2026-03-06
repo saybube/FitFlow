@@ -65,31 +65,31 @@ class WeightLogListCreateView(generics.ListCreateAPIView):
 class ActivitySummaryView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-def get(self, request):
-    user_activities = Activity.objects.filter(user=request.user)
-    user_food = FoodLog.objects.filter(user=request.user)
+    def get(self, request):
+        user_activities = Activity.objects.filter(user=request.user)
+        user_food = FoodLog.objects.filter(user=request.user)
 
-    start_date = request.query_params.get('start_date')
-    end_date = request.query_params.get('end_date')
+        start_date = request.query_params.get('start_date')
+        end_date = request.query_params.get('end_date')
 
-    if start_date and end_date:
+        if start_date and end_date:
             user_activities = user_activities.filter(date__range=[start_date, end_date])
             user_food = user_food.filter(date__range=[start_date, end_date])
 
-    activity_summary = user_activities.aggregate(
-        total_duration=Sum('duration_minutes'),
-        total_distance=Sum('distance_km'),
-        total_calories_burned=Sum('calories_burned')
-    )
+        activity_summary = user_activities.aggregate(
+            total_duration=Sum('duration_minutes'),
+            total_distance=Sum('distance_km'),
+            total_calories_burned=Sum('calories_burned')
+        )
 
-    food_summary = user_food.aggregate(
-        total_calories_ingested=Sum('calories_ingested'),
-        total_protein=Sum('protein'),
-        total_carbs=Sum('carbs'),
-        total_fats=Sum('fats')
-    )
+        food_summary = user_food.aggregate(
+            total_calories_ingested=Sum('calories_ingested'),
+            total_protein=Sum('protein'),
+            total_carbs=Sum('carbs'),
+            total_fats=Sum('fats')
+        )
         
-    return Response({
-        "activity": activity_summary,
-        "nutrition": food_summary
-    })
+        return Response({
+            "activity": activity_summary,
+            "nutrition": food_summary
+        })
