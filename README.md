@@ -70,6 +70,7 @@ The `/api/summary/` endpoint uses Django's `aggregate` function to offload calcu
 |---|---|---|---|
 | `/api/register/` | `POST` | Create a new user account. | No |
 | `/api/login/` | `POST` | Exchange credentials for an auth token. | No |
+| `/api/logout/` | `POST`| Deletes existing token | Yes
 | `/api/activities/` | `GET` / `POST` | List all activities or log a new one. | Yes |
 | `/api/activities/<id>/` | `GET` / `PUT` / `DELETE` | View, update, or delete a specific activity. | Yes |
 | `/api/summary/` | `GET` | Retrieve aggregated totals for calories and duration. | Yes |
@@ -80,8 +81,8 @@ The `/api/summary/` endpoint uses Django's `aggregate` function to offload calcu
 
 ### 1. Clone & Install
 ```bash
-git clone https://github.com/yourusername/fitflow-api.git
-cd fitflow-api
+git clone https://github.com/saybube/FitFlow.git
+cd FitFlow
 
 python -m venv venv
 source venv/Scripts/activate  # Gitbash 
@@ -91,9 +92,9 @@ pip install -r requirements.txt
 
 ### 2. Configure Environment Variables
 
-Create a `.env` file in the root directory. **Never commit this file to version control.**
+Create a `.env` file in the root directory.
 ```env
-SECRET_KEY=your_private_secret_key_here
+SECRET_KEY=private_secret_key_here
 DEBUG=True
 ```
 
@@ -124,19 +125,20 @@ python manage.py runserver
 2. Create a `.env` file on the server with `DEBUG=False` and a secure `SECRET_KEY`.
 3. Update the Web Tab WSGI file to point to `fitflow_project.settings`.
 4. Run `python manage.py collectstatic` from the server console.
-5. Map the `/static/` URL to your project's static directory in the Web Tab.
+5. Map the `/static/` URL to project's static directory in the Web Tab.
+6. Deployed at `https://ebube.pythonanywhere.com/`
 
 ---
 
 ## Troubleshooting
 
 **`401 Unauthorized`**
-Ensure the `Authorization` header is formatted as `Token <your_token_string>`.
+Ensures the `Authorization` header is formatted as `Token <token_string>`.
 
 **`500 Internal Server Error` (Production)**
-Check the host's error logs — commonly caused by a missing entry in `requirements.txt`.
+Checks the host's error logs — commonly caused by a missing entry in `requirements.txt`.
 
 **Missing CSS in Admin Panel**
-Confirm `STATIC_ROOT` is configured and `collectstatic` has been run on the live server.
+Confirms `STATIC_ROOT` is configured and `collectstatic` has been run on the live server.
 
 ---
